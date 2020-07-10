@@ -12,6 +12,8 @@ class ClockPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('clock'),
         ),
+        // You can minimize the impact of rebuilding a stateful widget
+        // pushing the state to the leaf.
         body: Center(child: Clock()));
   }
 }
@@ -32,7 +34,6 @@ class _ClockState extends State<Clock> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _timer.cancel();
   }

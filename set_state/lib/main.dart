@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:set_state/screens/clock_page.dart';
+import 'package:set_state/screens/fade.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +36,14 @@ class HomePage extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ClockPage()));
                 },
-                child: Text('clock', style: TextStyle(color: Colors.white)))
+                child: Text('clock', style: TextStyle(color: Colors.white))),
+            MaterialButton(
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FadePage()));
+                },
+                child: Text('fade', style: TextStyle(color: Colors.white)))
           ],
         ),
       ),
