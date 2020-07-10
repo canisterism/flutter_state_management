@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:set_state/screens/clock_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,55 +9,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'setState',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ClockPage(),
+      home: HomePage(),
     );
   }
 }
 
-class ClockPage extends StatelessWidget {
-  const ClockPage({Key key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  const HomePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Clock()));
-  }
-}
-
-class Clock extends StatefulWidget {
-  Clock({Key key}) : super(key: key);
-
-  @override
-  _ClockState createState() => _ClockState();
-}
-
-class _ClockState extends State<Clock> {
-  Timer _timer;
-  int time;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        time = timer.tick;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _timer.cancel();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(time.toString());
+    return Scaffold(
+      appBar: AppBar(title: Text('home')),
+      body: Center(
+        child: Column(
+          children: [
+            MaterialButton(
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ClockPage()));
+                },
+                child: Text('clock', style: TextStyle(color: Colors.white)))
+          ],
+        ),
+      ),
+    );
   }
 }
