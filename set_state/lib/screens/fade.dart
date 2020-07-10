@@ -1,29 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FadePage extends StatefulWidget {
-  @override
-  _FadePageState createState() => _FadePageState();
-}
-
-class _FadePageState extends State<FadePage> with TickerProviderStateMixin {
-  AnimationController animationController;
-
-  @override
-  void initState() {
-    super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))
-          ..addListener(() {
-            setState(() {});
-          });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    animationController.dispose();
-  }
+class FadePage extends StatelessWidget {
+  final _key = GlobalKey<FadeWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +11,59 @@ class _FadePageState extends State<FadePage> with TickerProviderStateMixin {
         title: Text('fade'),
       ),
       body: Center(
-          child: Opacity(
-        opacity: animationController.value,
-        child: Container(
-          color: Colors.red,
-          width: 100,
-          height: 100,
+        child: FadeWidget(
+          _key,
+          child: Container(
+            color: Colors.red,
+            width: 100,
+            height: 100,
+          ),
         ),
-      )),
+      ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            animationController
-              ..reset()
-              ..forward();
+            _key.currentState.start();
           }),
     );
+  }
+}
+
+class FadeWidget extends StatefulWidget {
+  const FadeWidget(Key key, {this.child}) : super(key: key);
+
+  final Widget child;
+  @override
+  FadeWidgetState createState() => FadeWidgetState();
+}
+
+class FadeWidgetState extends State<FadeWidget> with TickerProviderStateMixin {
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..addListener(() {
+            setState(() {});
+          });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(opacity: animationController.value, child: widget.child);
+  }
+
+  void start() {
+    animationController
+      ..reset()
+      ..forward();
   }
 }
